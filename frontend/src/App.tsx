@@ -159,9 +159,10 @@ export default function App() {
         ptp: call.aiFeedback?.willPay === 'yes' || call.aiFeedback?.willPay === 'partial',
         finalFeedback: call.aiFeedback?.finalFeedback || call.notes || '',
       }));
-      setCallLogs(mapped);
+      if (mapped.length > 0) setCallLogs(mapped);
     } catch (err) {
       console.error("Failed to load call logs:", err);
+      // Keep existing call logs (demo data set by loadDemoData)
     }
   };
 
@@ -180,17 +181,47 @@ export default function App() {
     try {
       const res = await api.getCustomers({ limit: 50 });
       const mapped = res.data.map(mapDbToCustomer);
-      setDbCustomers(mapped);
-      setDbHealth('ok');
       if (mapped.length > 0) {
+        setDbCustomers(mapped);
+        setDbHealth('ok');
         setCustomer(mapped[0]);
+      } else {
+        // No data in DB — load demo data
+        loadDemoData();
       }
     } catch (err) {
       console.error("Failed to load customers:", err);
       setDbHealth('fail');
+      // Backend unavailable — load demo data so UI is not empty
+      loadDemoData();
     } finally {
       setIsLoadingDb(false);
     }
+  };
+
+  const loadDemoData = () => {
+    const demo: CustomerData[] = [
+      { callId: 'DEMO001', name: 'Vikram Singh', overdue: '1,25,000', dpd: 123, phone: '9876543210', loanType: 'recovery', amountBorrowed: 200000, totalPaid: 75000, outstandingBalance: 125000, overdueAmount: 125000, cardInfo: { cardType: 'Credit Card', cardNumber: '4111111111111234' }, personaNotes: 'Salaried, works at Infosys. Has been cooperative in past calls.', paymentHistory: [{ date: '2024-11-15', amount: 25000, method: 'UPI', status: 'completed' }, { date: '2024-10-10', amount: 50000, method: 'NEFT', status: 'completed' }] },
+      { callId: 'DEMO002', name: 'Priya Sharma', overdue: '42,000', dpd: 67, phone: '9123456789', loanType: 'recovery', amountBorrowed: 80000, totalPaid: 38000, outstandingBalance: 42000, overdueAmount: 42000, cardInfo: { cardType: 'Debit Card', cardNumber: '5200000000001234' }, personaNotes: 'Self-employed, runs a boutique. Promised to pay last month but did not.', paymentHistory: [{ date: '2024-12-01', amount: 38000, method: 'Cash', status: 'completed' }] },
+      { callId: 'DEMO003', name: 'Rahul Verma', overdue: '17,500', dpd: 34, phone: '9988776655', loanType: 'recovery', amountBorrowed: 50000, totalPaid: 32500, outstandingBalance: 17500, overdueAmount: 17500, cardInfo: { cardType: 'Credit Card', cardNumber: '4000000000001234' }, personaNotes: 'Government employee. Usually pays on time. Recent delay due to medical emergency.', paymentHistory: [{ date: '2025-01-05', amount: 10000, method: 'UPI', status: 'completed' }, { date: '2024-12-15', amount: 22500, method: 'NEFT', status: 'completed' }] },
+      { callId: 'DEMO004', name: 'Anjali Bose', overdue: '89,000', dpd: 145, phone: '9765432100', loanType: 'recovery', amountBorrowed: 150000, totalPaid: 61000, outstandingBalance: 89000, overdueAmount: 89000, cardInfo: { cardType: 'Credit Card', cardNumber: '3700000000001234' }, personaNotes: 'Recently lost job. Hardship case. Handle with empathy.', paymentHistory: [{ date: '2024-09-20', amount: 30000, method: 'UPI', status: 'completed' }, { date: '2024-08-10', amount: 31000, method: 'NEFT', status: 'completed' }] },
+      { callId: 'DEMO005', name: 'Manoj Tiwari', overdue: '2,35,000', dpd: 178, phone: '9654321098', loanType: 'recovery', amountBorrowed: 400000, totalPaid: 165000, outstandingBalance: 235000, overdueAmount: 235000, cardInfo: { cardType: 'Credit Card', cardNumber: '4111000000001234' }, personaNotes: 'Business owner. Business closed 6 months ago. Very resistant to calls.', paymentHistory: [{ date: '2024-07-01', amount: 100000, method: 'Cheque', status: 'completed' }, { date: '2024-06-01', amount: 65000, method: 'NEFT', status: 'completed' }] },
+      { callId: 'DEMO006', name: 'Sunita Patel', overdue: '28,500', dpd: 45, phone: '9543210987', loanType: 'recovery', amountBorrowed: 60000, totalPaid: 31500, outstandingBalance: 28500, overdueAmount: 28500, cardInfo: { cardType: 'Debit Card', cardNumber: '5100000000001234' }, personaNotes: 'Housewife. Husband handles finances. Call in evening after 6 PM.', paymentHistory: [{ date: '2025-01-10', amount: 15000, method: 'UPI', status: 'completed' }, { date: '2024-12-10', amount: 16500, method: 'UPI', status: 'completed' }] },
+      { callId: 'DEMO007', name: 'Arjun Nair', overdue: '56,000', dpd: 89, phone: '9432109876', loanType: 'recovery', amountBorrowed: 100000, totalPaid: 44000, outstandingBalance: 56000, overdueAmount: 56000, cardInfo: { cardType: 'Credit Card', cardNumber: '4222000000001234' }, personaNotes: 'IT professional. Currently in Bangalore. Prefers WhatsApp communication.', paymentHistory: [{ date: '2024-11-01', amount: 22000, method: 'UPI', status: 'completed' }, { date: '2024-10-01', amount: 22000, method: 'UPI', status: 'completed' }] },
+      { callId: 'DEMO008', name: 'Kavita Reddy', overdue: '73,000', dpd: 112, phone: '9321098765', loanType: 'recovery', amountBorrowed: 120000, totalPaid: 47000, outstandingBalance: 73000, overdueAmount: 73000, cardInfo: { cardType: 'Credit Card', cardNumber: '5400000000001234' }, personaNotes: 'Teacher. Salary delayed for 2 months. Willing to pay in installments.', paymentHistory: [{ date: '2024-10-15', amount: 25000, method: 'NEFT', status: 'completed' }, { date: '2024-09-15', amount: 22000, method: 'NEFT', status: 'completed' }] },
+    ];
+    setDbCustomers(demo);
+    setCustomer(demo[0]);
+    setDbHealth('ok');
+
+    // Also set demo call logs
+    setCallLogs([
+      { id: 'd1', time: '10:30 AM', customer: 'Vikram Singh', status: 'Negotiated', amount: '₹25,000', duration: 245, committedAmount: 25000, ptp: true, finalFeedback: 'Customer agreed to pay ₹25,000 by Friday. Cooperative tone.' },
+      { id: 'd2', time: '11:15 AM', customer: 'Priya Sharma', status: 'Declined', amount: '₹0', duration: 120, committedAmount: 0, ptp: false, finalFeedback: 'Customer refused to pay. Claims dispute on interest charges.' },
+      { id: 'd3', time: '12:00 PM', customer: 'Rahul Verma', status: 'Resolved', amount: '₹17,500', duration: 180, committedAmount: 17500, ptp: true, finalFeedback: 'Full payment committed. Payment link sent via SMS.' },
+      { id: 'd4', time: '02:30 PM', customer: 'Anjali Bose', status: 'Pending', amount: '₹5,000', duration: 95, committedAmount: 5000, ptp: true, finalFeedback: 'Jobless case. Agreed to pay minimum ₹5,000 to protect CIBIL score.' },
+      { id: 'd5', time: '03:45 PM', customer: 'Arjun Nair', status: 'Negotiated', amount: '₹15,000', duration: 310, committedAmount: 15000, ptp: true, finalFeedback: 'Partial payment of ₹15,000 agreed. Remaining by month end.' },
+    ]);
   };
 
   const handleUpload = async (e: ChangeEvent<HTMLInputElement>) => {
