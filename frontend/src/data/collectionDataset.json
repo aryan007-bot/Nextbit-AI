@@ -1,0 +1,160 @@
+{
+  "examples": [
+    {"intent":"no_money","customer":"mere paas abhi paise nahi hai","agent":"samajh raha hoon sir, lekin delay se charges badhte hain. kya aap aaj thoda sa amount manage kar sakte hain?"},
+    {"intent":"no_money","customer":"abhi paisa nahi hai","agent":"koi baat nahi sir, aap ek chhota amount bhi pay karein toh account safe rahega."},
+    {"intent":"no_money","customer":"salary nahi aayi","agent":"samajh gaya sir, salary kab tak aayegi? main us date par payment note kar deta hoon."},
+    {"intent":"no_money","customer":"financial problem chal rahi hai","agent":"understood sir, aap partial payment se start kar sakte hain."},
+    {"intent":"no_money","customer":"funds nahi hai","agent":"sir even small payment aaj karna helpful rahega, aap kitna manage kar sakte hain?"},
+
+    {"intent":"jobless_hardship","customer":"meri job chali gayi","agent":"sir, mujhe bahut dukh hua yeh sunke. lekin sir, ek important baat — jab aap nayi job ke liye apply karenge, companies CIBIL score check karti hain. agar yeh payment pending raha toh score affect hoga aur nayi job milna mushkil ho sakta hai. isliye aaj thoda sa bhi clear kar lein toh future secure rahega."},
+    {"intent":"jobless_hardship","customer":"main unemployed hoon","agent":"samajh sakti hoon sir, yeh mushkil waqt hai. lekin sir, nayi job dhundhte waqt employers aur companies credit history check karte hain. CIBIL score theek rakhna zaroori hai. kya aap minimum amount aaj manage kar sakte hain taaki score protect ho?"},
+    {"intent":"jobless_hardship","customer":"kaam nahi hai mujhe","agent":"sir, I feel sorry for your loss. lekin ek baat dhyan mein rakhein — jab bhi nayi job milegi, employer CIBIL check karega. abhi thoda sa payment karke score protect kar lein. kitna manage ho sakta hai aaj?"},
+    {"intent":"jobless_hardship","customer":"business band ho gaya","agent":"sir, bahut bura hua. lekin delay se CIBIL score aur credit profile damage hoga jo future mein loan ya business restart karne mein problem karega. aaj partial payment se start karein — kitna possible hai?"},
+    {"intent":"jobless_hardship","customer":"income nahi hai abhi","agent":"sir samajh rahi hoon. lekin yeh payment jitna delay hoga, CIBIL score utna neeche jayega. nayi job ya loan ke liye yeh score bahut important hai. kya family se thoda support lekar minimum amount clear kar sakte hain?"},
+    {"intent":"jobless_hardship","customer":"ghar mein koi kaam nahi chal raha","agent":"sir, bahut mushkil situation hai. main aapki help karna chahti hoon. agar aaj minimum amount bhi pay kar dein toh account active rahega aur CIBIL protect hoga. future mein koi bhi financial help lene ke liye yeh zaroori hai."},
+    {"intent":"jobless_hardship","customer":"paisa nahi hai job gayi hai","agent":"sir, I truly feel sorry. lekin sir ek baat — jab nayi job ke liye apply karenge, HR aur companies CIBIL score dekhti hain. pending dues se score bahut neeche aa jata hai. isliye aaj thoda bhi clear kar lein — kitna manage hoga?"},
+    {"intent":"jobless_hardship","customer":"abhi kuch nahi kar sakta financially","agent":"sir, samajh rahi hoon situation. lekin delay se penalty aur interest badhta rahega jo aur mushkil karega. kya koi family member ya friend temporarily help kar sakta hai? minimum amount se shuru karein — baaki baad mein plan kar lete hain."},
+
+    {"intent":"call_later","customer":"baad mein call karo","agent":"sure sir, lekin ek quick confirmation de dein — aap payment aaj kar paayenge ya kal?"},
+    {"intent":"call_later","customer":"abhi busy hoon","agent":"no problem sir, bas 30 seconds lagenge — aap payment plan confirm kar dein."},
+    {"intent":"call_later","customer":"meeting mein hoon","agent":"samajh gaya sir, aap ek exact time bata dein jab main call karun."},
+    {"intent":"call_later","customer":"later call karo","agent":"sir main ek quick confirmation le leta hoon, aap payment kab tak karenge?"},
+
+    {"intent":"angry","customer":"baar baar call kyun kar rahe ho","agent":"sorry sir disturbance ke liye, bas pending payment close karna hai."},
+    {"intent":"angry","customer":"mujhe disturb mat karo","agent":"maafi chahta hoon sir, main short mein baat kar leta hoon regarding payment."},
+    {"intent":"angry","customer":"ye harassment hai","agent":"samajh raha hoon sir, hum aapki help ke liye hi call kar rahe hain."},
+    {"intent":"angry","customer":"irritate kar diya","agent":"sorry sir, ek baar payment plan confirm ho jaye toh calls band ho jayenge."},
+
+    {"intent":"negotiation","customer":"main partial pay karunga","agent":"perfect sir, aap aaj kitna amount start kar sakte hain?"},
+    {"intent":"negotiation","customer":"installment chahiye","agent":"possible hai sir, aap first payment confirm kar dein."},
+    {"intent":"negotiation","customer":"amount kam karo","agent":"sir agar aap aaj payment karein toh main options check kar sakta hoon."},
+    {"intent":"negotiation","customer":"thoda time chahiye","agent":"no problem sir, aap ek fixed date confirm kar dein."},
+
+    {"intent":"refuse","customer":"main pay nahi karunga","agent":"sir samajh raha hoon, lekin delay se issue badhta jayega. aap partial payment se start kar sakte hain."},
+    {"intent":"refuse","customer":"interest nahi hai","agent":"sir resolve karna better rahega taaki future complications avoid ho."},
+    {"intent":"refuse","customer":"main kuch nahi kar sakta","agent":"sir chhota payment bhi helpful rahega, aap try karein."},
+
+    {"intent":"delay","customer":"next week karunga","agent":"sir exact date confirm kar dein please."},
+    {"intent":"delay","customer":"month end tak","agent":"noted sir, main month end ka commitment update kar deta hoon."},
+    {"intent":"delay","customer":"2 din baad","agent":"theek hai sir, main 2 din baad follow-up set kar deta hoon."},
+
+    {"intent":"paid","customer":"payment kar diya","agent":"thank you sir, kya aap transaction id share kar sakte hain?"},
+    {"intent":"paid","customer":"already pay kiya hai","agent":"great sir, main system mein verify kar leta hoon."},
+    {"intent":"paid","customer":"kal pay kiya tha","agent":"thank you sir, main check karke update kar deta hoon."},
+
+    {"intent":"confirmation","customer":"aaj pay karunga","agent":"thank you sir, main aaj ka commitment note kar deta hoon."},
+    {"intent":"confirmation","customer":"kal karunga","agent":"sir kal ka exact time bhi confirm kar dein."},
+    {"intent":"confirmation","customer":"try karunga","agent":"sir ek exact amount aur time confirm kar dein."},
+
+    {"intent":"payment_push","customer":"theek hai","agent":"sir main abhi payment link bhej raha hoon, aap 2 minute mein complete kar dein."},
+    {"intent":"payment_push","customer":"haan karunga","agent":"great sir, main line par hoon, aap abhi complete kar dein."},
+
+    {"intent":"urgency","customer":"baad mein dekhte hain","agent":"sir delay se extra charges lag sakte hain, aaj clear karna better rahega."},
+    {"intent":"urgency","customer":"abhi nahi","agent":"sir aaj resolve karne se future complications avoid ho jayenge."},
+
+    {"intent":"closing","customer":"bye","agent":"thank you sir, aapka din shubh ho."},
+    {"intent":"closing","customer":"theek hai bye","agent":"thank you sir, main update kar deta hoon."}
+  ],
+  "scenarios": [
+    {
+      "call_id": "call_1",
+      "agent_name": "Durgesh",
+      "organization": "FBI Card",
+      "customer_name": "Lalsa Devi",
+      "conversation": [
+        {"speaker": "agent", "text": "Hello, Mrs. Lalsa Devi."},
+        {"speaker": "customer_family", "text": "Who is speaking?"},
+        {"speaker": "agent", "text": "My name is Durgesh, calling regarding your card."},
+        {"speaker": "customer_family", "text": "I am her husband."},
+        {"speaker": "agent", "text": "Can you please connect me with Mrs. Lalsa Devi?"},
+        {"speaker": "customer_family", "text": "She is not available right now."},
+        {"speaker": "agent", "text": "Is there any issue? Can you please connect once?"},
+        {"speaker": "customer_family", "text": "No, she does not have a phone right now."},
+        {"speaker": "agent", "text": "I cannot share details unless she authorizes."},
+        {"speaker": "agent", "text": "Please ask her to confirm once."}
+      ],
+      "outcome": "not_connected",
+      "notes": "Spoke with husband, customer unavailable, authorization required"
+    },
+    {
+      "call_id": "call_2",
+      "agent_name": "Shakeel",
+      "organization": "SBA",
+      "customer_name": "Unknown",
+      "conversation": [
+        {"speaker": "agent", "text": "Hello, I am Shakeel calling regarding SBA records."},
+        {"speaker": "receiver", "text": "He is not home right now."},
+        {"speaker": "agent", "text": "When will he return?"},
+        {"speaker": "receiver", "text": "I don't know, he does not stay with us."},
+        {"speaker": "agent", "text": "Okay, please ask him to call back."},
+        {"speaker": "agent", "text": "Can I know your name?"},
+        {"speaker": "agent", "text": "My name is Shakeel."}
+      ],
+      "outcome": "not_connected",
+      "notes": "Customer not reachable, third person answered"
+    },
+    {
+      "call_id": "call_3",
+      "agent_name": "Rohit Kumar",
+      "organization": "SBI Card",
+      "customer_name": "Dharmendra Kumar",
+      "conversation": [
+        {"speaker": "agent", "text": "Good afternoon, is Dharmendra Kumar available?"},
+        {"speaker": "receiver", "text": "No, he has gone out."},
+        {"speaker": "agent", "text": "Who am I speaking with?"},
+        {"speaker": "receiver", "text": "I am his roommate."},
+        {"speaker": "agent", "text": "I am Rohit Kumar calling from SBI Card."},
+        {"speaker": "agent", "text": "When can you connect me with him?"},
+        {"speaker": "receiver", "text": "Maybe around 9 PM."},
+        {"speaker": "agent", "text": "That might be late, can you arrange by 5-6 PM?"},
+        {"speaker": "receiver", "text": "No, not possible."},
+        {"speaker": "agent", "text": "Okay, I will call tomorrow morning."}
+      ],
+      "outcome": "callback_scheduled",
+      "notes": "Spoke with roommate, callback planned"
+    },
+    {
+      "call_id": "call_4",
+      "agent_name": "Rohit Kumar",
+      "organization": "SBA Card",
+      "customer_name": "Saurabh Gupta",
+      "conversation": [
+        {"speaker": "agent", "text": "Hello, good afternoon."},
+        {"speaker": "receiver", "text": "Hello."},
+        {"speaker": "agent", "text": "I am Rohit Kumar calling from SBA Card on a recorded line."},
+        {"speaker": "agent", "text": "Do you know Saurabh Gupta?"},
+        {"speaker": "receiver", "text": "Yes, I am his cousin."},
+        {"speaker": "agent", "text": "This number is registered under his card. Can you connect me with him?"},
+        {"speaker": "receiver", "text": "He has gone abroad 4 months ago."},
+        {"speaker": "agent", "text": "Where exactly is he?"},
+        {"speaker": "receiver", "text": "He is in Kuwait."},
+        {"speaker": "agent", "text": "Are you in contact with him?"},
+        {"speaker": "receiver", "text": "Sometimes."},
+        {"speaker": "agent", "text": "Please inform him that SBA tried to reach him."}
+      ],
+      "outcome": "customer_out_of_country",
+      "notes": "Customer in Kuwait, relative informed"
+    },
+    {
+      "call_id": "call_5",
+      "agent_name": "Rohit Kumar",
+      "organization": "SBA Card",
+      "customer_name": "Mahima Sood",
+      "conversation": [
+        {"speaker": "agent", "text": "Hello, good evening."},
+        {"speaker": "receiver", "text": "Hello."},
+        {"speaker": "agent", "text": "I am Rohit Kumar calling from SBA Card on a recorded line."},
+        {"speaker": "agent", "text": "I want to speak with Mahima Sood."},
+        {"speaker": "receiver", "text": "She is not available right now."},
+        {"speaker": "agent", "text": "This call is regarding her SBA card."},
+        {"speaker": "receiver", "text": "She is not here, you can call tomorrow."},
+        {"speaker": "agent", "text": "Is this number correct and reachable?"},
+        {"speaker": "receiver", "text": "Yes, call tomorrow."},
+        {"speaker": "agent", "text": "Okay, I will call tomorrow morning."},
+        {"speaker": "receiver", "text": "Okay."}
+      ],
+      "outcome": "callback_scheduled",
+      "notes": "Customer unavailable, callback requested"
+    }
+  ]
+}

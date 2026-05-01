@@ -1,0 +1,6 @@
+Your non-SRV Atlas URI (use if SRV fails):
+
+mongodb://dagararyan947_db_user:ZrOTBuNOyF0V5K1N@cluster0-shard-00-00.xuomilu.mongodb.net:27017,cluster0-shard-00-01.xuomilu.mongodb.net:27017,cluster0-shard-00-02.xuomilu.mongodb.net:27017/nextbit_recovery?ssl=true&replicaSet=atlas-123abc-shard-0&authSource=admin&retryWrites=true&w=majority
+
+✅ Replace your current MONGODB_URI in .env with this.
+⚠️ Keep your password — no changes needed.
