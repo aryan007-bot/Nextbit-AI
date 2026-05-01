@@ -5,6 +5,8 @@ import { defineConfig, loadEnv } from 'vite';
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, '.', '');
+  const backendUrl = env.VITE_BACKEND_URL || 'http://localhost:3001';
+
   return {
     plugins: [react(), tailwindcss()],
     define: {
@@ -23,6 +25,10 @@ export default defineConfig(({ mode }) => {
           changeOrigin: true,
         },
       },
+    },
+    build: {
+      outDir: 'dist',
+      sourcemap: false,
     },
   };
 });

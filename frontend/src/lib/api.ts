@@ -1,6 +1,9 @@
 import { Customer, PaginatedResponse, CallLogPayload } from "../types/shared";
 
-const API_BASE = "/api";
+// In production (Vercel), calls go to the Render backend URL
+// In development, Vite proxy forwards /api → localhost:3001
+const BACKEND_URL = (import.meta as any).env?.VITE_BACKEND_URL || "";
+const API_BASE = BACKEND_URL ? `${BACKEND_URL}/api` : "/api";
 
 async function handleResponse<T>(res: Response): Promise<T> {
   const json = await res.json();
