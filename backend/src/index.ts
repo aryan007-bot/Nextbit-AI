@@ -12,7 +12,7 @@ dotenv.config({ path: path.resolve(process.cwd(), ".env") });
 console.log("🔍 MONGODB_URI =", process.env.MONGODB_URI);
 
 const app = express();
-const PORT = process.env.BACKEND_PORT || 3001;
+const PORT = process.env.PORT || process.env.BACKEND_PORT || 3001;
 
 // Middleware
 app.use(cors({
