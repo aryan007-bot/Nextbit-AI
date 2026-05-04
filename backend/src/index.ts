@@ -26,6 +26,22 @@ app.get("/health", (_req, res) => {
   res.json({ status: "ok", timestamp: new Date().toISOString() });
 });
 
+// Show server IP (for Atlas whitelist debugging)
+app.get("/ip", async (_req, res) => {
+  try {
+    const ip = await new Promise<string>((resolve, reject) => {
+      const req = (await import("https")).request({ hostname: "api.ipify.org", path: "/?format=json" }, (r) => {
+        let d = ""; r.on("data", (c) => d += c);
+        r.on("end", () => resolve(JSON.parse(d).ip));
+      });
+      req.on("error", reject); req.end();
+    });
+    res.json({ ip });
+  } catch {
+    res.json({ ip: "unknown" });
+  }
+});
+
 // API Routes
 app.use("/api/customers", customerRoutes);
 app.use("/api/upload", uploadRoutes);
