@@ -9,25 +9,19 @@ import uploadRoutes from "./routes/upload.js";
 import callRoutes from "./routes/calls.js";
 
 dotenv.config({ path: path.resolve(process.cwd(), ".env") });
-console.log("🔍 MONGODB_URI =", process.env.MONGODB_URI);
 
 const app = express();
 const PORT = process.env.PORT || process.env.BACKEND_PORT || 3001;
 
-// Middleware
+// Allow all origins in production (Vercel frontend + local dev)
 app.use(cors({
-  origin: [
-    "http://localhost:3000",
-    "http://localhost:5173",
-    /\.vercel\.app$/,
-    /\.onrender\.com$/,
-  ],
+  origin: true,
   credentials: true,
 }));
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true }));
 
-// Health check
+// Health check — always responds even if DB is down
 app.get("/health", (_req, res) => {
   res.json({ status: "ok", timestamp: new Date().toISOString() });
 });
@@ -41,23 +35,18 @@ app.use("/api/calls", callRoutes);
 app.use(notFoundHandler);
 app.use(errorHandler);
 
+// Start server — DB failure does NOT crash the server
 async function startServer() {
-  try {
-    await connectDB();
-    app.listen(PORT, () => {
-      console.log(`Backend server running on http://localhost:${PORT}`);
-      console.log(`API endpoints:`);
-      console.log(`  POST /api/upload/sheet    - Upload dialer sheet`);
-      console.log(`  GET  /api/customers       - List customers`);
-      console.log(`  GET  /api/customers/:id   - Get customer by callId`);
-      console.log(`  GET  /api/calls           - List call logs`);
-      console.log(`  POST /api/calls           - Log a call`);
-      console.log(`  GET  /api/calls/stats     - Dashboard stats`);
-    });
-  } catch (error) {
-    console.error("Failed to start server:", error);
-    process.exit(1);
-  }
+  // Start listening FIRST so health check works immediately
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+
+  // Then try to connect DB (non-blocking)
+  await connectDB();
 }
 
-startServer();
+startServer().catch(err => {
+  console.error("Startup error:", err);
+  // Don't exit — keep server running
+});

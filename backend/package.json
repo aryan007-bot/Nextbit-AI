@@ -4,9 +4,9 @@
   "version": "3.0.0",
   "type": "module",
   "scripts": {
-    "start": "node --import tsx/esm src/index.ts",
+    "start": "tsx src/index.ts",
     "dev": "tsx watch src/index.ts",
-    "build": "echo 'No build needed - using tsx runtime'",
+    "build": "echo 'Using tsx runtime - no build step needed'",
     "lint": "tsc --noEmit"
   },
   "dependencies": {

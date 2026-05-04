@@ -4,11 +4,14 @@ const MONGODB_URI = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/nextbi
 
 export async function connectDB(): Promise<void> {
   try {
-    await mongoose.connect(MONGODB_URI);
-    console.log("MongoDB connected:", MONGODB_URI);
+    await mongoose.connect(MONGODB_URI, {
+      serverSelectionTimeoutMS: 10000,
+      connectTimeoutMS: 10000,
+    });
+    console.log("MongoDB connected:", MONGODB_URI.replace(/:([^@]+)@/, ":***@"));
   } catch (error) {
-    console.error("MongoDB connection error:", error);
-    throw error;
+    // Don't crash — log and continue. APIs will return empty data.
+    console.error("MongoDB connection failed (continuing without DB):", (error as Error).message);
   }
 }
 
