@@ -121,6 +121,8 @@ function intentBoostScore(
     callback_scheduling: ["kal call", "subah call", "shaam call", "callback", "schedule", "morning", "evening", "tomorrow"],
     customer_abroad: ["bahar desh", "foreign", "abroad", "kuwait", "dubai", "gulf", "out of country"],
     deceased_customer: ["nahi rahe", "mar gaye", "intekaal", "death", "passed away", "deceased"],
+    wrong_number: ["galat number", "wrong number", "yahan nahi", "koi aisa nahi", "not that person", "does not belong", "woh nahi hoon", "main nahi hoon", "galat jagah", "is number pe nahi", "unka nahi hai"],
+    wrong_number_final_denial: ["bilkul nahi jaanta", "stop calling", "already bol chuka", "baar baar call", "do not call", "band karo calls"],
   };
 
   let boost = 0;

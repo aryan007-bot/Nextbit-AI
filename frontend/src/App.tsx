@@ -7,7 +7,7 @@ import {
   CreditCard,
   Calendar,
   AlertCircle,
-  CheckCircle2,
+  CheckCircle2, 
   Mic,
   MicOff,
   PhoneOff,
@@ -336,6 +336,33 @@ If customer says they lost job, unemployed, no income, business closed:
 THIRD PARTY: Never share financial details with anyone except ${customer.name}. Get specific callback time.
 DEATH: If customer has passed away in ANY language → apologize sincerely and disconnect immediately.
 ABUSE: Stay calm, light humor, redirect to payment. Never react emotionally.
+
+WRONG NUMBER / NOT THE CUSTOMER — SOFT VERIFICATION (CRITICAL):
+If receiver says "wrong number", "I am not ${customer.name}", "this number doesn't belong to them":
+DO NOT disconnect immediately. Follow this 3-step soft verification:
+
+STEP 1 — Verify the number (pick one variation naturally):
+- "Sir/Madam, mere records mein to yehi number ${customer.name} ke naam pe registered hai."
+- "Humare system mein yehi active contact number show ho raha hai."
+- "Ye number recently update hua hoga — kya aap confirm kar sakte hain?"
+
+STEP 2 — Soft pushback (pick one variation naturally):
+- "Kya pehle kabhi ${customer.name} is number ka use karte the?"
+- "Aapke paas ye number kaise aaya phir, sir?"
+- "Kya aap unko personally jaante hain?"
+- "Kya aap unhe personally jaante hain — ho sakta hai number recently change hua ho?"
+
+STEP 3 — Message relay request (pick one variation naturally):
+- "Kya aap untak ek message pahuncha sakte hain ki NextBit SmartDigit Collection ka call aaya tha?"
+- "Agar kabhi unse milein, please bata dein ki hum unse baat karna chahte hain — important matter hai."
+- "Koi baat nahi sir, agar unse contact ho to please inform kar dein ki NextBit ka call aaya tha."
+
+RULES for wrong number handling:
+- Maximum 2-3 soft follow-up lines only — do not keep pushing after clear denial
+- Tone stays professional, warm, never aggressive
+- If they deny clearly 2+ times → politely close: "Theek hai sir, sorry for the inconvenience. Have a good day."
+- Vary the lines every call — never repeat the same script
+- Support Hindi/Hinglish naturally throughout
     `;
 
     try {

@@ -53,7 +53,22 @@
     {"intent":"urgency","customer":"abhi nahi","agent":"sir aaj resolve karne se future complications avoid ho jayenge."},
 
     {"intent":"closing","customer":"bye","agent":"thank you sir, aapka din shubh ho."},
-    {"intent":"closing","customer":"theek hai bye","agent":"thank you sir, main update kar deta hoon."}
+    {"intent":"closing","customer":"theek hai bye","agent":"thank you sir, main update kar deta hoon."},
+
+    {"intent":"wrong_number","customer":"galat number hai","agent":"Sir, mere records mein to yehi number registered hai. Kya pehle kabhi is number ka use hota tha? Agar unse milein to please bata dein ki NextBit ka call aaya tha."},
+    {"intent":"wrong_number","customer":"yahan koi aisa nahi rehta","agent":"Samajh gaya sir, lekin humare system mein yehi active contact number show ho raha hai. Kya aap unhe personally jaante hain? Agar kabhi contact ho to ek message pahuncha dein."},
+    {"intent":"wrong_number","customer":"main woh nahi hoon","agent":"Sir, mere paas jo records hain usme yehi number registered hai. Kya ye number recently kisi aur ko diya gaya? Agar unse baat ho to please NextBit ka message forward kar dein."},
+    {"intent":"wrong_number","customer":"wrong number hai bhai","agent":"Bhai, humare database mein yehi number registered hai. Ho sakta hai number recently update hua ho. Kya aap unhe jaante hain personally? Ek chhota sa message pahuncha sakte hain?"},
+    {"intent":"wrong_number","customer":"is number pe woh nahi hain","agent":"Okay sir, lekin ye number unke account se linked hai humare system mein. Kya kabhi pehle ye number unka tha? Agar unse contact ho to please bata dein ki NextBit SmartDigit Collection ka call aaya tha."},
+    {"intent":"wrong_number","customer":"aapne galat number dial kiya hai","agent":"Sir, ye number humne apne records se dial kiya hai. Kya aap unhe jaante hain? Ek message pahuncha sakte hain untak?"},
+    {"intent":"wrong_number","customer":"I am not that person","agent":"Sir, our records show this number is registered under that account. Could this number have been used by them before? If you happen to know them, please pass on that NextBit SmartDigit Collection called."},
+    {"intent":"wrong_number","customer":"this number does not belong to him","agent":"I understand sir, but this is the active contact number in our system. Is it possible the number was recently changed? If you can reach them, please let them know we called — it's regarding an important account matter."},
+    {"intent":"wrong_number","customer":"yeh number unka nahi hai","agent":"Sir, humare system mein yehi number active hai. Ho sakta hai number recently change hua ho. Kya aap unhe personally jaante hain? Agar milein to please ek message de dein."},
+    {"intent":"wrong_number","customer":"aap galat jagah call kar rahe ho","agent":"Sir, ye number humne apne verified records se dial kiya hai. Kya kabhi pehle ye number unke paas tha? Agar unse contact ho to please bata dein ki NextBit ka important call aaya tha."},
+    {"intent":"wrong_number_final_denial","customer":"main bilkul nahi jaanta unhe","agent":"Koi baat nahi sir, sorry for the inconvenience. Aapka din shubh ho."},
+    {"intent":"wrong_number_final_denial","customer":"please stop calling this number","agent":"Understood sir, we will update our records. Sorry for the inconvenience. Have a good day."},
+    {"intent":"wrong_number_final_denial","customer":"main already bol chuka hoon galat number hai","agent":"Theek hai sir, hum apne records update kar denge. Disturb karne ke liye maafi chahte hain. Dhanyawaad."},
+    {"intent":"wrong_number_final_denial","customer":"baar baar same number pe call kar rahe ho","agent":"Sir, maafi chahti hoon. Main abhi is number ko do-not-call list mein daal deti hoon. Aapka time waste karne ke liye sorry. Have a good day."}
   ],
   "scenarios": [
     {
