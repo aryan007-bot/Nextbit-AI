@@ -138,6 +138,16 @@ export class GeminiLiveService {
     this.isSpeaking = true;
     this.onStatusCb?.("Speaking...");
 
+    // Try Gemini TTS first, fall back to browser speech
+    const geminiOk = await this.tryGeminiTTS(text);
+    if (!geminiOk && !this.stopped) {
+      await this.tryBrowserTTS(text);
+    }
+
+    this.isSpeaking = false;
+  }
+
+  private async tryGeminiTTS(text: string): Promise<boolean> {
     try {
       const body = JSON.stringify({
         contents: [{ role: "user", parts: [{ text }] }],
@@ -156,9 +166,8 @@ export class GeminiLiveService {
       const part = json.candidates?.[0]?.content?.parts?.[0]?.inlineData;
 
       if (!part?.data) {
-        console.warn("[TTS] No audio:", JSON.stringify(json).slice(0, 150));
-        this.isSpeaking = false;
-        return;
+        console.warn("[TTS] No audio data, falling back to browser TTS. Response:", JSON.stringify(json).slice(0, 150));
+        return false;
       }
 
       // Gemini TTS returns raw PCM: audio/L16;codec=pcm;rate=24000
@@ -171,6 +180,8 @@ export class GeminiLiveService {
         float32[i] = view.getInt16(i * 2, true) / 32768;
       }
 
+      if (!this.audioCtx || this.stopped) return false;
+
       const buf = this.audioCtx.createBuffer(1, samples, RATE);
       buf.getChannelData(0).set(float32);
 
@@ -178,7 +189,6 @@ export class GeminiLiveService {
         if (this.stopped || !this.audioCtx) { resolve(); return; }
         const src = this.audioCtx.createBufferSource();
         src.buffer = buf;
-        // Boost volume to ensure it's audible
         const gain = this.audioCtx.createGain();
         gain.gain.value = 1.5;
         src.connect(gain);
@@ -187,11 +197,49 @@ export class GeminiLiveService {
         src.start(0);
       });
 
+      console.log("[TTS] Gemini TTS played successfully, samples:", samples);
+      return true;
+
     } catch (e: any) {
-      console.error("[TTS]", e?.message || e);
-    } finally {
-      this.isSpeaking = false;
+      console.error("[TTS] Gemini TTS failed:", e?.message || e);
+      return false;
     }
+  }
+
+  private tryBrowserTTS(text: string): Promise<void> {
+    return new Promise(resolve => {
+      if (!window.speechSynthesis || this.stopped) { resolve(); return; }
+      console.log("[TTS] Using browser speechSynthesis fallback");
+
+      window.speechSynthesis.cancel();
+
+      const sentences = text.match(/[^।.!?]+[।.!?]*/g) || [text];
+      let idx = 0;
+
+      const speakNext = () => {
+        if (idx >= sentences.length || this.stopped) { resolve(); return; }
+        const u = new SpeechSynthesisUtterance(sentences[idx++].trim());
+
+        // Pick best available voice
+        const voices = window.speechSynthesis.getVoices();
+        const voice =
+          voices.find(v => v.lang === "hi-IN") ||
+          voices.find(v => v.lang === "en-IN") ||
+          voices.find(v => v.lang.startsWith("en")) ||
+          null;
+        if (voice) u.voice = voice;
+
+        u.lang = "hi-IN";
+        u.rate = 0.95;
+        u.pitch = 1.1;
+        u.volume = 1.0;
+        u.onend = speakNext;
+        u.onerror = speakNext;
+        window.speechSynthesis.speak(u);
+      };
+
+      speakNext();
+    });
   }
 
   // ─────────────────────────────────────────────────────────────────────────
