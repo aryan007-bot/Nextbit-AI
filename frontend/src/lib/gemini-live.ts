@@ -55,8 +55,9 @@ export class GeminiLiveService {
 
     config.onStatusChange("Initializing...");
 
-    // AudioContext for TTS playback
+    // AudioContext MUST be at 24000Hz to match Gemini TTS output rate
     this.audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)({
+      sampleRate: 24000,
       latencyHint: "interactive",
     });
     if (this.audioCtx.state === "suspended") await this.audioCtx.resume();
@@ -139,7 +140,7 @@ export class GeminiLiveService {
 
     try {
       const body = JSON.stringify({
-        contents: [{ parts: [{ text }] }],
+        contents: [{ role: "user", parts: [{ text }] }],
         generationConfig: {
           responseModalities: ["AUDIO"],
           speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: TTS_VOICE } } },
@@ -177,7 +178,11 @@ export class GeminiLiveService {
         if (this.stopped || !this.audioCtx) { resolve(); return; }
         const src = this.audioCtx.createBufferSource();
         src.buffer = buf;
-        src.connect(this.audioCtx.destination);
+        // Boost volume to ensure it's audible
+        const gain = this.audioCtx.createGain();
+        gain.gain.value = 1.5;
+        src.connect(gain);
+        gain.connect(this.audioCtx.destination);
         src.onended = () => resolve();
         src.start(0);
       });
