@@ -29,7 +29,6 @@ import {
   FileDown
 } from "lucide-react";
 import { GeminiLiveService } from "./lib/gemini-live";
-import { buildDynamicPrompt } from "./lib/training";
 import { retrieveRelevant, generateQueryFromProfile } from "./lib/retrieval";
 import { api, type Customer as DbCustomer } from "./lib/api";
 
@@ -370,11 +369,15 @@ RULES for wrong number handling:
         throw new Error("GEMINI_API_KEY is missing");
       }
 
-      const query = generateQueryFromProfile(customer);
-      const retrieval = retrieveRelevant(query, 6, 2);
-      console.log("Retrieval stats:", retrieval.examples.length, "examples,", retrieval.scenarios.length, "scenarios, saved ~" + retrieval.totalTokensSaved + " tokens");
+      // Build slim customer context (sent as first message, not system instruction)
+      const customerContext = `CUSTOMER FILE:
+Name: ${customer.name} | Overdue: Rs.${customer.overdue} | DPD: ${customer.dpd} days | Type: ${callType}
+Borrowed: Rs.${customer.amountBorrowed?.toLocaleString('en-IN') || 'N/A'} | Paid: Rs.${customer.totalPaid?.toLocaleString('en-IN') || 'N/A'}
+Card: ${customer.cardInfo ? `${customer.cardInfo.cardType || 'Card'} ending ${customer.cardInfo.cardNumber?.slice(-4) || '****'}` : 'N/A'}
+Payment History: ${paymentHistoryStr}
+Notes: ${customer.personaNotes || 'None'}
 
-      const trainedSystemInstruction = systemInstruction + buildDynamicPrompt(retrieval);
+Begin the call now with the identity verification greeting.`;
 
       liveService.current = new GeminiLiveService(process.env.GEMINI_API_KEY);
       setCallStartTime(new Date());
@@ -383,38 +386,28 @@ RULES for wrong number handling:
       durationInterval.current = setInterval(() => {
         setCallDuration(prev => prev + 1);
       }, 1000);
+
       await liveService.current.connect({
-        systemInstruction: trainedSystemInstruction,
+        systemInstruction,
+        customerContext,
         onMessage: (msg: string) => {
-          console.log("Transcript Received:", msg);
           setTranscripts(prev => [...prev, msg].slice(-20));
-
-          const lowerMsg = msg.toLowerCase();
-
-          // Death case auto-detect and disconnect
-          if (lowerMsg.includes("mar gaya") || lowerMsg.includes("mar gayi") || lowerMsg.includes("death") || lowerMsg.includes("passed away") || lowerMsg.includes("funeral") || lowerMsg.includes("antim sanskar")) {
-            console.log("[Death Detected] Auto-disconnecting call...");
-            setSentiment('Neutral');
-            endCall('death');
-            return;
-          }
-
-          if (lowerMsg.includes("okay") || lowerMsg.includes("haan") || lowerMsg.includes("theek") || lowerMsg.includes("payment")) {
-            setSentiment('Cooperative');
-          } else if (lowerMsg.includes("nahi") || lowerMsg.includes("no") || lowerMsg.includes("busy") || lowerMsg.includes("later")) {
-            setSentiment('Resistant');
-          } else if (lowerMsg.includes("gussa") || lowerMsg.includes("shout") || lowerMsg.includes("bad")) {
-            setSentiment('Agitated');
-          }
+          const lower = msg.toLowerCase();
+          const deathWords = ["mar gaya","mar gayi","death","passed away","funeral","antim sanskar","nahi rahe"];
+          if (deathWords.some(w => lower.includes(w))) { endCall('death'); return; }
+          if (["okay","haan","theek","payment","karunga"].some(w => lower.includes(w))) setSentiment('Cooperative');
+          else if (["gussa","angry","harassment"].some(w => lower.includes(w))) setSentiment('Agitated');
+          else if (["nahi","no","busy","later"].some(w => lower.includes(w))) setSentiment('Resistant');
         },
         onStatusChange: (status: string) => {
-          console.log("Call Status Update:", status);
+          console.log("Status:", status);
           setCallStatus(status);
         }
       });
     } catch (err) {
-      console.error(err);
-      setCallStatus("Call Failed");
+      console.error("[startCall]", err);
+      const msg = err instanceof Error ? err.message : String(err);
+      setCallStatus("Failed: " + msg.slice(0, 80));
     }
   };
 
